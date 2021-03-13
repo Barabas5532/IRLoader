@@ -17,6 +17,7 @@ public:
    #endif
 
     void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
+    using AudioProcessor::processBlock;
 
     AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override;

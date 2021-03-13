@@ -68,15 +68,19 @@ int IrloaderAudioProcessor::getCurrentProgram()
 
 void IrloaderAudioProcessor::setCurrentProgram (int index)
 {
+    (void) index;
 }
 
 const String IrloaderAudioProcessor::getProgramName (int index)
 {
+    (void) index;
     return {};
 }
 
 void IrloaderAudioProcessor::changeProgramName (int index, const String& newName)
 {
+    (void) index;
+    (void) newName;
 }
 
 //==============================================================================
@@ -85,8 +89,8 @@ void IrloaderAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     spec.sampleRate = sampleRate;
-    spec.maximumBlockSize = samplesPerBlock;
-    spec.numChannels = getTotalNumOutputChannels(); 
+    spec.maximumBlockSize = (juce::uint32)samplesPerBlock;
+    spec.numChannels = (juce::uint32)getTotalNumOutputChannels();
     convolution.prepare(spec);
 }
 
@@ -122,6 +126,8 @@ bool IrloaderAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts)
 
 void IrloaderAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+    (void) midiMessages;
+
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -155,12 +161,15 @@ void IrloaderAudioProcessor::getStateInformation (MemoryBlock& destData)
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    (void) destData;
 }
 
 void IrloaderAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+    (void) data;
+    (void) sizeInBytes;
 }
 
 //==============================================================================

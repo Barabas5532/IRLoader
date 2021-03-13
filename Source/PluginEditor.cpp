@@ -46,5 +46,5 @@ void IrloaderAudioProcessorEditor::resized()
 
 void IrloaderAudioProcessorEditor::filenameComponentChanged(FilenameComponent* f) 
 {
-    processor.convolution.loadImpulseResponse(f->getCurrentFile(), false, false, 0);
+    processor.convolution.loadImpulseResponse(f->getCurrentFile(), dsp::Convolution::Stereo::no, dsp::Convolution::Trim::no, 0);
 }
