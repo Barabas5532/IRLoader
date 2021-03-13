@@ -62,7 +62,7 @@ void IrloaderAudioProcessorEditor::resized()
     fileComp->setBounds(20, 30, getWidth() - 40, 40);
 }
 
-void IrloaderAudioProcessorEditor::filenameComponentChanged(FilenameComponent* f) 
+void IrloaderAudioProcessorEditor::filenameComponentChanged(FilenameComponent* f)
 {
-    processor.convolution.loadImpulseResponse(f->getCurrentFile(), dsp::Convolution::Stereo::no, dsp::Convolution::Trim::no, 0);
+    processor.setImpulseResponseFile(f->getCurrentFile());
 }

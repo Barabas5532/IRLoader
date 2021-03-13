@@ -176,18 +176,45 @@ AudioProcessorEditor* IrloaderAudioProcessor::createEditor()
 //==============================================================================
 void IrloaderAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
-    (void) destData;
+    XmlElement state("state");
+
+    XmlElement *file = new XmlElement("current_file");
+    file->addTextElement(currentFile);
+    state.addChildElement(file);
+
+    copyXmlToBinary(state, destData);
 }
 
 void IrloaderAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
-    (void) data;
-    (void) sizeInBytes;
+    std::unique_ptr<XmlElement> state(getXmlFromBinary(data, sizeInBytes));
+    if(state.get() != nullptr)
+    {
+        juce::Logger::writeToLog(state->toString());
+
+        if(state->hasTagName("state"))
+        {
+            auto e = state->getChildByName("current_file");
+            if(e != nullptr)
+            {
+                setImpulseResponseFile(File(e->getAllSubText()));
+            }
+            else
+            {
+                juce::Logger::outputDebugString("Couldn't find current_file tag");
+            }
+        }
+        else
+        {
+            juce::Logger::outputDebugString("hasTagName state failed");
+        }
+    }
+}
+
+void IrloaderAudioProcessor::setImpulseResponseFile(File file)
+{
+    currentFile = file.getFullPathName();
+    convolution.loadImpulseResponse(file, dsp::Convolution::Stereo::no, dsp::Convolution::Trim::no, 0);
 }
 
 //==============================================================================

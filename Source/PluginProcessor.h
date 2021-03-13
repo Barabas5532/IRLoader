@@ -56,10 +56,12 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    dsp::Convolution convolution;
-private:
+    void setImpulseResponseFile(File file);
 
+private:
     dsp::ProcessSpec spec;
+    dsp::Convolution convolution;
+    String currentFile;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (IrloaderAudioProcessor)
 };
